@@ -1,0 +1,133 @@
+
+class Solution {
+    public int numMagicSquaresInside(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int ans = 0;
+
+        for (int i = 0; i <= n - 3; i++) {
+            for (int j = 0; j <= m - 3; j++) {
+                if (isMagicSquare(grid, i, j)) {
+                    ans++;
+                }
+            }
+        }
+        
+        return ans;
+    }
+
+    private boolean isMagicSquare(int[][] grid, int i, int j) {
+    int diagsum1 = 0; // Sum of the main diagonal (top-left to bottom-right)
+    int diagsum2 = 0; // Sum of the anti-diagonal (top-right to bottom-left)
+    int magicSum = 15; // Magic sum for a 3x3 magic square
+    int[] rowsum = new int[3]; // Array to store the sum of each row
+    int[] colsum = new int[3]; // Array to store the sum of each column
+    int[] counts = new int[10]; // Counts for numbers 1 through 9
+
+
+    // Calculate sums for rows, columns, and diagonals
+    for (int x = 0; x < 3; x++) {
+        for (int y = 0; y < 3; y++) {
+            int num = grid[i + x][j + y];
+            if (num < 1 || num > 9) {
+                return false; // Each number must be between 1 and 9
+            }
+            counts[num]++;
+            rowsum[x] += num; // Sum of the current row
+            colsum[y] += num; // Sum of the current column
+            if (x == y) {
+                diagsum1 += num; // Main diagonal
+            }
+            if (x + y == 2) {
+                diagsum2 += num; // Anti-diagonal
+            }
+        }
+    }
+
+    // Validate row sums
+    for (int sum : rowsum) {
+        if (sum != magicSum) {
+            return false;
+        }
+    }
+
+    // Validate column sums
+    for (int sum : colsum) {
+        if (sum != magicSum) {
+            return false;
+        }
+    }
+    for (int k = 1; k <= 9; k++) {
+        if (counts[k] != 1) return false;
+    }
+
+    // Validate diagonal sums
+    return diagsum1 == magicSum && diagsum2 == magicSum;
+}
+}
+
+
+
+// Second solution :
+
+
+class Solution {
+    public int numMagicSquaresInside(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int ans = 0;
+
+        for (int i = 0; i <= n - 3; i++) {
+            for (int j = 0; j <= m - 3; j++) {
+                if (isMagicSquare(grid, i, j)) {
+                    ans++;
+                }
+            }
+        }
+        
+        return ans;
+    }
+
+    private boolean isMagicSquare(int[][] grid, int i, int j) {
+        int[] counts = new int[10]; // Counts for numbers 1 through 9
+        
+        int sum1 = 0, sum2 = 0; // Sums for diagonals
+        int magicSum = 15; // Magic sum for a 3x3 magic square
+        
+        // Check 3x3 sub-grid
+        for (int row = 0; row < 3; row++) {
+            int rowSum = 0;
+            int colSum = 0;
+            for (int col = 0; col < 3; col++) {
+                int num = grid[i + row][j + col];
+                if (num < 1 || num > 9) return false;
+                counts[num]++;
+                
+                // Calculate row sums
+                rowSum += num;
+                
+                // Calculate column sums
+                colSum += grid[i + col][j + row];
+                
+                // Calculate diagonal sums
+                if (row == col) {
+                    sum1 += num;
+                }
+                if (row + col == 2) {
+                    sum2 += num;
+                }
+            }
+            
+            // Validate row and column sums
+            if (rowSum != magicSum || colSum != magicSum) return false;
+        }
+
+        // Check if all numbers from 1 to 9 are present exactly once
+        for (int k = 1; k <= 9; k++) {
+            if (counts[k] != 1) return false;
+        }
+
+        // Check diagonals
+        return sum1 == magicSum && sum2 == magicSum;
+    }
+}
