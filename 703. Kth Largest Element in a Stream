@@ -1,0 +1,33 @@
+class KthLargest {
+
+    private final int[] minArray;
+    private int size;
+    private final int k;
+
+    public KthLargest(int k, int[] nums) {
+        this.k = k;
+        this.minArray = new int[k];
+        this.size = 0;
+
+        for (int num : nums) {
+            add(num);
+        }
+    }
+
+    public int add(int val) {
+        if (size < k) {
+            minArray[size++] = val;
+            Arrays.sort(minArray, 0, size); 
+        } else if (val > minArray[0]) {
+            minArray[0] = val;
+            Arrays.sort(minArray); 
+        }
+        return minArray[0];
+    }
+}
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest obj = new KthLargest(k, nums);
+ * int param_1 = obj.add(val);
+ */
