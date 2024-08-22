@@ -1,0 +1,18 @@
+class Solution {
+    public int findComplement(int num) {
+        
+        if (num == 0) return 1; 
+        int bitCount = 0;
+        int temp = num;
+
+        while (temp > 0) {
+            temp >>= 1;
+            bitCount++;
+        }
+
+        int mask = (1 << bitCount) - 1;
+
+        return num ^ mask;
+
+    }
+}
