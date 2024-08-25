@@ -1,0 +1,16 @@
+class Solution {
+    public void postorder(TreeNode root, List<Integer> ar) {
+        if (root == null) {
+            return;
+        }
+        postorder(root.left, ar);
+        postorder(root.right, ar);
+        ar.add(root.val); // Use `add` method to insert the value into the list
+    }
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ar = new ArrayList<>(); // Initialize the list
+        postorder(root, ar);
+        return ar;
+    }
+}
