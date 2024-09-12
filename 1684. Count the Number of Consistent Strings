@@ -1,0 +1,53 @@
+class Solution {
+    public int countConsistentStrings(String allowed, String[] words) {
+        int count=words.length;
+
+        HashSet<Character> set=new HashSet<>();
+        for(char letter: allowed.toCharArray()){
+            set.add(letter);
+        }
+
+        for(String word: words){
+             for(int i=0;i<word.length();i++){
+                 if(!set.contains(word.charAt(i))){
+                    count--;
+                    break;
+                }
+             }
+        }
+        return count;
+    }
+}
+
+
+//Approach-2 (using boolean array)
+
+class Solution {
+    public int countConsistentStrings(String allowed, String[] words) {
+        
+        boolean[] isAllowed = new boolean[26];
+      
+        for (char ch : allowed.toCharArray()) {
+            isAllowed[ch - 'a'] = true;
+        }
+
+        int count = 0;
+
+        for (String word : words) {
+            boolean allCharAllowed = true;
+
+            for (char ch : word.toCharArray()) {
+                if (!isAllowed[ch - 'a']) {
+                    allCharAllowed = false;
+                    break;
+                }
+            }
+
+            if (allCharAllowed) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
