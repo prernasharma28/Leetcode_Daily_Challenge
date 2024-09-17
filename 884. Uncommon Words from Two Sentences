@@ -1,0 +1,25 @@
+class Solution {
+    public String[] uncommonFromSentences(String s1, String s2) {
+        Map<String, Integer> countMap = new HashMap<>();
+
+        // Count words in both sentences
+        for (String word : (s1 + " " + s2).split(" ")) {
+            countMap.put(word, countMap.getOrDefault(word, 0) + 1);
+        }
+
+        // List to store uncommon words
+        List<String> result = new ArrayList<>();
+
+        // Find uncommon words (appear exactly once in one sentence and not at all in
+        // the other)
+        for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            String word = entry.getKey();
+            int count = entry.getValue();
+            if (count == 1) {
+                result.add(word);
+            }
+        }
+
+        return result.toArray(new String[0]);
+    }
+}
